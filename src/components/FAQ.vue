@@ -22,6 +22,7 @@
 
 
   export default {
+    name: "FAQ",
     mixins: [
       RemoteData({
         questionList: 'questions',

@@ -1,3 +1,6 @@
+import state from "./state";
+import router from "../router";
+
 let baseUrl
 
 export async function $fetch(url, options) {
@@ -11,9 +14,17 @@ export async function $fetch(url, options) {
   if (response.ok) {
     const data = await response.json()
     return data
-  } else {
+  } else if (response.status === 403){
+    state.user = null
+
+    if (router.currentRoute.matched.some(r => r.meta.private)){
+      await router.replace({name:'login', params: {
+          wantedRoute: router.currentRoute.fullPath,
+        }})
+    }
+  }else{
     const message = await response.text()
-    const error = new Error(message)
+    const error = new Error(message);
     error.response = response
     throw error
   }
