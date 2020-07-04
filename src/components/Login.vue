@@ -62,11 +62,11 @@
         return this.password2 &&
           this.password !== this.password2
       },
-      signupValid() {
-        return this.password2 && this.email && !this.retypePasswordError()
+      signupValid(){
+        return this.password2 && this.email && !this.retypePasswordError
       },
       valid() {
-        return this.username && this.password && (this.mode !== 'signup' || this.signupValid())
+        return this.username && this.password && (this.mode !== 'signup' || this.signupValid)
       }
     },
     data() {
@@ -83,15 +83,35 @@
         await this[this.mode]()
       },
       async login() {
+        this.$state.user = await this.$fetch('login', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          })
+        })
 
+        this.$router.push({name: 'home'});
       },
       async signup() {
-
+        await this.$fetch('signup', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+            email: this.email,
+          }),
+        })
+        this.mode = "login"
       }
     }
   }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+  .form{
+    >>> .content{
+      max-width 400px;
+    }
+  }
 </style>
