@@ -2,6 +2,7 @@
   <nav class="menu">
     <router-link :to="{name: 'home'}" exact>Strona główna</router-link>
     <router-link :to="{name: 'faq'}">FAQ</router-link>
+    <rolouter-link :to="{name: 'login'}">Login</rolouter-link>
   </nav>
 </template>
 
