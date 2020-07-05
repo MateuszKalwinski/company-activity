@@ -9,6 +9,7 @@ import Tickets from "./components/Tickets";
 import NewTicket from "./components/NewTicket";
 
 import state from "./state";
+import NotFound from "./components/NotFound";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,7 @@ const routes = [
       {path: '', name: 'tickets', component: Tickets},
       {path: 'new', name: 'new-ticket', component: NewTicket},
     ]},
+  {path: '*', component: NotFound},
 ]
 
 const router = new VueRouter({
