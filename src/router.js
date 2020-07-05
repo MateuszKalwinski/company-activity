@@ -5,6 +5,8 @@ import Home from './components/Home.vue';
 import FAQ from './components/FAQ.vue';
 import Login from "./components/Login";
 import TicketLayout from "./components/TicketLayout";
+import Tickets from "./components/Tickets";
+import NewTicket from "./components/NewTicket";
 
 import state from "./state";
 
@@ -14,7 +16,11 @@ const routes = [
   {path: '/', name: 'home', component: Home},
   {path: '/faq', name: 'faq', component: FAQ},
   {path: '/login', name: 'login', component: Login, meta: {guest: true}},
-  {path: '/tickets', name: 'tickets', component: TicketLayout, meta: {private: true}},
+  {path: '/tickets', name: 'tickets', component: TicketLayout,
+    meta: {private: true}, children: [
+      {path: '', name: 'tickets', component: Tickets},
+      {path: 'new', name: 'new-ticket', component: NewTicket},
+    ]},
 ]
 
 const router = new VueRouter({
@@ -23,7 +29,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.private && !state.user) {
+  if (to.matched.some(r => r.meta.private) && !state.user) {
     next({
       name: 'login',
       params:{
@@ -32,7 +38,7 @@ router.beforeEach((to, from, next) => {
     })
     return
   }
-  if (to.meta.guest && state.user){
+  if (to.matched.some(r => r.meta.guest) && state.user){
     next({name: 'home'})
     return;
   }

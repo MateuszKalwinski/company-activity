@@ -1,6 +1,7 @@
 <template>
   <div class="row">
     <input
+      :is="element"
       @input="update"
       class="input"
       :class="inputClass"
@@ -8,6 +9,7 @@
       :type="type"
       :value="text"
       :placeholder="placeholder"
+      v-bind="$attrs"
     >
   </div>
 </template>
@@ -20,6 +22,9 @@
             return {
               invalid: this.invalid
             }
+          },
+          element(){
+            return this.type === 'textarea' ? this.type : 'input'
           }
       },
       props:{
